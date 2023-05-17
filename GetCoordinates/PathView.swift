@@ -17,17 +17,35 @@ struct PathView: View {
         let radius = diameter / 2
         let points = 5
         let angle = 360 / points
-        let coordinates = (0..<points).map { iteration in
+        let initial = (0..<points).map { iteration in
             let currentAngle = Double(iteration * angle) * Double.pi / 180
             let dotX = radius + radius * CGFloat(sin(currentAngle))
             let dotY = radius - radius * CGFloat(cos(currentAngle))
             return (x: dotX, y: dotY)
         }
         
+        var coordinates: [(x: CGFloat, y: CGFloat)] {
+            var newArray = [(x: CGFloat, y: CGFloat)]()
+            
+            for (index, element) in initial.enumerated() {
+                if index % 2 == 0 {
+                    newArray.append(element)
+                }
+            }
+            
+            for (index, element) in initial.enumerated() {
+                if index % 2 != 0 {
+                    newArray.append(element)
+                }
+            }
+            
+            return newArray
+        }
+         
         return ZStack {
             ForEach(0..<coordinates.count, id: \.self) { index in
                 let coordinate1 = coordinates[index]
-                let coordinate2 = coordinates[(index + 2) % points]
+                let coordinate2 = coordinates[(index + 1) % points]
                 let x1 = coordinate1.x
                 let y1 = coordinate1.y
                 let x2 = coordinate2.x
