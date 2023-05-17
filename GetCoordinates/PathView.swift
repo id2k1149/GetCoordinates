@@ -25,21 +25,22 @@ struct PathView: View {
         }
         
         return ZStack {
-            let coordinate1 = coordinates[currentIndex]
-            let coordinate2 = coordinates[(currentIndex + 2) % points]
-            let x1 = coordinate1.x
-            let y1 = coordinate1.y
-            let x2 = coordinate2.x
-            let y2 = coordinate2.y
-            
-            Path { path in
-                path.move(to: CGPoint(x: x1, y: y1))
-                path.addLine(to: CGPoint(x: x2, y: y2))
+            ForEach(0..<coordinates.count) { index in
+                let coordinate1 = coordinates[index]
+                let coordinate2 = coordinates[(index + 2) % points]
+                let x1 = coordinate1.x
+                let y1 = coordinate1.y
+                let x2 = coordinate2.x
+                let y2 = coordinate2.y
+                
+                Path { path in
+                    path.move(to: CGPoint(x: x1, y: y1))
+                    path.addLine(to: CGPoint(x: x2, y: y2))
+                }
+                .trim(from: 0.0, to: currentIndex >= index ? CGFloat(progress) : 0.0) 
+                .stroke(Color.black, lineWidth: 2)
+                .animation(.easeInOut(duration: 1)) // Apply animation to each line
             }
-            .trim(from: 0.0, to: CGFloat(progress))
-            .stroke(Color.black, lineWidth: 2)
-            .animation(.easeInOut(duration: 1), value: progress)
-            
         }
         .frame(width: diameter, height: diameter)
         .onAppear {
@@ -58,6 +59,8 @@ struct PathView: View {
         }
     }
 }
+
+
 
 struct PathView_Previews: PreviewProvider {
     static var previews: some View {
