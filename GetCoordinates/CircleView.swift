@@ -11,7 +11,7 @@ struct CircleView: View {
     var body: some View {
         let diameter = UIScreen.main.bounds.width * 0.9
         Circle()
-            .stroke(Color.black, lineWidth: 2)
+            .stroke(Color.gray, lineWidth: 2)
             .frame(width: diameter,
                    height: diameter)
     }
