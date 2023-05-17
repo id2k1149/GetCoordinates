@@ -15,7 +15,7 @@ struct PathView: View {
         
         let diameter = UIScreen.main.bounds.width * 0.9
         let radius = diameter / 2
-        let points = 7
+        let points = 5
         let angle = 360 / points
         let initial = (0..<points).map { iteration in
             let currentAngle = Double(iteration * angle) * Double.pi / 180
@@ -75,14 +75,14 @@ struct PathView: View {
                     path.move(to: CGPoint(x: x1, y: y1))
                     path.addLine(to: CGPoint(x: x2, y: y2))
                 }
-//                .trim(from: 0.0, to: currentIndex >= index ? CGFloat(progress) : 0.0)
+                .trim(from: 0.0, to: currentIndex >= index ? CGFloat(progress) : 0.0)
                 .trim(from: 0.0, to: CGFloat(progress))
                 .stroke(Color.black, lineWidth: 2)
-                .animation(.easeInOut(duration: 1), value: progress)
+                .animation(.linear(duration: 1), value: progress)
             }
         }
         .frame(width: diameter, height: diameter)
-        /*
+        
         .onAppear {
             displayNextItem()
             
@@ -97,7 +97,7 @@ struct PathView: View {
                 }
             }
         }
-         */
+         
     }
 }
 
