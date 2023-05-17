@@ -40,6 +40,9 @@ struct PathView: View {
                         newArray.append(element)
                     }
                 }
+                
+                newArray.append(initial[0])
+                
             } else {
                 for (index, element) in initial.enumerated() {
                     if index % 2 == 0 {
@@ -54,6 +57,8 @@ struct PathView: View {
                         newArray.append(element)
                     }
                 }
+                
+                newArray.append(initial[1])
             }
         
             
@@ -61,43 +66,27 @@ struct PathView: View {
         }
          
         return ZStack {
-//            Text("Final Array: \(coordinates)")
-            
-            ForEach(0..<coordinates.count, id: \.self) { index in
-                let coordinate1 = coordinates[index]
-                let coordinate2 = coordinates[(index + 1) % points]
-                let x1 = coordinate1.x
-                let y1 = coordinate1.y
-                let x2 = coordinate2.x
-                let y2 = coordinate2.y
-                
-                Path { path in
-                    path.move(to: CGPoint(x: x1, y: y1))
-                    path.addLine(to: CGPoint(x: x2, y: y2))
+            Path { path in
+                if  coordinates.count % 2 == 0 {
+                    for (index, coordinate) in coordinates.enumerated() {
+                        let point = CGPoint(
+                            x: coordinate.0,
+                            y: coordinate.1
+                        )
+                        if index == 0 {
+                            path.move(to: point)
+                        } else {
+                            path.addLine(to: point)
+                        }
+                    }
                 }
-                .trim(from: 0.0, to: currentIndex >= index ? CGFloat(progress) : 0.0)
-                .trim(from: 0.0, to: CGFloat(progress))
-                .stroke(Color.black, lineWidth: 2)
-                .animation(.linear(duration: 1), value: progress)
             }
+            .trim(from: 0.0, to: CGFloat(min(self.progress, 1.0)))
+            .stroke(Color.black, lineWidth: 2)
+            .animation(.linear(duration: 5),
+                       value: progress)
         }
         .frame(width: diameter, height: diameter)
-        
-        .onAppear {
-            displayNextItem()
-            
-            func displayNextItem() {
-                guard currentIndex < coordinates.count - 1 else {
-                    return
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    currentIndex += 1
-                    displayNextItem()
-                }
-            }
-        }
-         
     }
 }
 
