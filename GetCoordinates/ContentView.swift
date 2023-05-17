@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var progress = 0.0
+    @State private var points = 6
     
     var body: some View {
        
@@ -19,14 +20,15 @@ struct ContentView: View {
                 
                 
                 CircleView()
-//                LineView(progress: $progress)
+
                 
-                ForEach(0..<5, id: \.self) { iteration in
+                ForEach(0..<points, id: \.self) { iteration in
                     LineView(progress: $progress)
-                    .rotationEffect(.degrees(Double(iteration * 72)))
+                    .rotationEffect(.degrees(Double(iteration * (360 / points))))
                 }
                 
-                PathView(progress: $progress)
+                PathView(progress: $progress,
+                         points: $points)
                 
             }
             

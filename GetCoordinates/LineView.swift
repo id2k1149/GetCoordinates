@@ -15,7 +15,7 @@ struct LineView: View {
         
         Path { path in
             path.move(to: CGPoint(x: diameter / 2, y: diameter / 2))
-            path.addLine(to: CGPoint(x: diameter / 2, y: -10))
+            path.addLine(to: CGPoint(x: diameter / 2, y: -20))
         }
         .trim(from: 0.0, to: CGFloat(progress))
         .stroke(Color.gray, lineWidth: 2)
