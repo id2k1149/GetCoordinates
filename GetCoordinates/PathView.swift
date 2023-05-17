@@ -15,7 +15,7 @@ struct PathView: View {
         
         let diameter = UIScreen.main.bounds.width * 0.9
         let radius = diameter / 2
-        let points = 5
+        let points = 7
         let angle = 360 / points
         let initial = (0..<points).map { iteration in
             let currentAngle = Double(iteration * angle) * Double.pi / 180
@@ -27,22 +27,42 @@ struct PathView: View {
         var coordinates: [(x: CGFloat, y: CGFloat)] {
             var newArray = [(x: CGFloat, y: CGFloat)]()
             
-            for (index, element) in initial.enumerated() {
-                if index % 2 == 0 {
-                    newArray.append(element)
+            if initial.count % 2 != 0 {
+                
+                for (index, element) in initial.enumerated() {
+                    if index % 2 == 0 {
+                        newArray.append(element)
+                    }
+                }
+                
+                for (index, element) in initial.enumerated() {
+                    if index % 2 != 0 {
+                        newArray.append(element)
+                    }
+                }
+            } else {
+                for (index, element) in initial.enumerated() {
+                    if index % 2 == 0 {
+                        newArray.append(element)
+                    }
+                }
+                
+                newArray.append(initial[0])
+                
+                for (index, element) in initial.enumerated() {
+                    if index % 2 != 0 {
+                        newArray.append(element)
+                    }
                 }
             }
-            
-            for (index, element) in initial.enumerated() {
-                if index % 2 != 0 {
-                    newArray.append(element)
-                }
-            }
+        
             
             return newArray
         }
          
         return ZStack {
+//            Text("Final Array: \(coordinates)")
+            
             ForEach(0..<coordinates.count, id: \.self) { index in
                 let coordinate1 = coordinates[index]
                 let coordinate2 = coordinates[(index + 1) % points]
@@ -55,12 +75,14 @@ struct PathView: View {
                     path.move(to: CGPoint(x: x1, y: y1))
                     path.addLine(to: CGPoint(x: x2, y: y2))
                 }
-                .trim(from: 0.0, to: currentIndex >= index ? CGFloat(progress) : 0.0) 
+//                .trim(from: 0.0, to: currentIndex >= index ? CGFloat(progress) : 0.0)
+                .trim(from: 0.0, to: CGFloat(progress))
                 .stroke(Color.black, lineWidth: 2)
                 .animation(.easeInOut(duration: 1), value: progress)
             }
         }
         .frame(width: diameter, height: diameter)
+        /*
         .onAppear {
             displayNextItem()
             
@@ -75,6 +97,7 @@ struct PathView: View {
                 }
             }
         }
+         */
     }
 }
 
