@@ -69,7 +69,10 @@ struct PathView: View {
             Path { path in
                 if coordinates.last?.x == coordinates.first?.x
                     && coordinates.last?.y == coordinates.first?.y {
-                          
+                    
+                    path.addLines(coordinates.map { CGPoint(x: $0.x, y: $0.y) })
+                      
+                    /*
                     for (index, coordinate) in coordinates.enumerated() {
                         let point = CGPoint(
                             x: coordinate.0,
@@ -81,6 +84,8 @@ struct PathView: View {
                             path.addLine(to: point)
                         }
                     }
+                     */
+                    
                 } else {
                     let firstHalf = coordinates.prefix(coordinates.count / 2)
                     path.addLines(firstHalf.map { CGPoint(x: $0.x, y: $0.y) })

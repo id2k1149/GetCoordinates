@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var progress = 0.0
-    @State private var points = 6
+    @State private var points = 5
     
     var body: some View {
        
