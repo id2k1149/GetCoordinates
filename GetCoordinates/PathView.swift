@@ -25,7 +25,7 @@ struct PathView: View {
         }
         
         return ZStack {
-            ForEach(0..<coordinates.count) { index in
+            ForEach(0..<coordinates.count, id: \.self) { index in
                 let coordinate1 = coordinates[index]
                 let coordinate2 = coordinates[(index + 2) % points]
                 let x1 = coordinate1.x
@@ -39,7 +39,7 @@ struct PathView: View {
                 }
                 .trim(from: 0.0, to: currentIndex >= index ? CGFloat(progress) : 0.0) 
                 .stroke(Color.black, lineWidth: 2)
-                .animation(.easeInOut(duration: 1)) // Apply animation to each line
+                .animation(.easeInOut(duration: 1), value: progress)
             }
         }
         .frame(width: diameter, height: diameter)
